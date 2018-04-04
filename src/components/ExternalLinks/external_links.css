@@ -1,0 +1,25 @@
+.link-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	padding-top: 30px;
+}
+
+.facebook {
+	height: 30px;
+}
+
+.linkedin {
+	height: 30px;
+	padding-left: 30px;
+}
+
+.github {
+	height: 30px;
+	padding-left: 30px;
+}
+
+.resume {
+	height: 30px;
+	padding-left: 30px;
+}

@@ -1,0 +1,25 @@
+.header{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	/*background-color: grey;*/
+}
+
+.profile-photo {
+	padding: 10px;
+  	height: 50px;
+  	/*border: 1px solid black;*/
+}
+
+.blog {
+	font-size: 16px;
+	text-align: right;
+	color: white;
+    text-shadow: -0.5px 0 black, 0 0.5px black, 0.5px 0 black, 0 -0.5px black;
+	padding-right: 20px;
+	padding-top: 27px;
+}
+
+/*.blog:hover{
+	background-color: white;
+}*/
