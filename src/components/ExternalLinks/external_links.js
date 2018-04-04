@@ -12,7 +12,7 @@ class ExternalLinks extends Component {
 				<a href='https://www.facebook.com/douglas.yan.54'><img src={Facebook} className='facebook' alt='facebook'/></a>
 				<a href='https://www.linkedin.com/in/douglas-yan-48790288'><img src={LinkedIn} className='linkedin' alt='linkedin'/></a>
 				<a href='https://github.com/doug-yan'><img src={Github} className='github' alt='github'/></a>
-				<a href='https://douglasyan.com'><img src={Resume} className='resume' alt='resume'/></a>
+				<a href='http://douglasyan.com'><img src={Resume} className='resume' alt='resume'/></a>
 			</div>
 		);
 	}

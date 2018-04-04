@@ -1,7 +1,14 @@
 .name {
+	padding-top: 100px;
 	text-align: center;
+	font-size: 100px;
+	font-family: "Helvetica Neueu";
+	font-weight: normal;
 }
 
 .titles {
+	padding-top: 30px;
 	text-align: center;
+	font-family: "Helvetica Neueu";
+	font-weight: normal;
 }

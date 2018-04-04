@@ -2,13 +2,12 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	/*background-color: grey;*/
+	/*background-color: #557a95;*/
 }
 
 .profile-photo {
 	padding: 10px;
   	height: 50px;
-  	/*border: 1px solid black;*/
 }
 
 .blog {
