@@ -1,6 +1,20 @@
-html, body {
-	margin: 0;
+.opaque-layer {
+	position: absolute;
 	height: 100%;
-	/*background-color: #5d5c61;*/
-	background-color: #f7f7f7;
+	width: 100%;
+	opacity: 0.80;
+}
+
+.page-container {
+	z-index: 999;
+	background: url("lib/assets/background3.png") no-repeat center center fixed;
+	/*background-size: cover;*/
+	background-size: 100% 100%;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	height: 100%;
+	width: 100%;
+	position: absolute;
 }

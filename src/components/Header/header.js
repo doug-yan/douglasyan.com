@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import profile from '../../resources/profile_pic.jpg';
+import profile from '../../lib/assets/profile_pic.jpg';
 import './header.css';
 
 class Header extends Component {

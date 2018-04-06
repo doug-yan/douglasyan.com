@@ -5,8 +5,10 @@ import Home from './components/Home/home';
 class App extends Component {
   render() {
     return (
-      <div className='page-container'>
-        <Home />
+      <div className='opaque-layer'>
+        <div className='page-container'>
+          <Home />
+        </div>
       </div>
     );
   }
