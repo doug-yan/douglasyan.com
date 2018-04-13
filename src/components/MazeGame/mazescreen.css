@@ -21,15 +21,7 @@ section {
 section div {
 	background: grey;
 	float: left;
-	height: 85px;
+	/*height: 85px;*/
 	margin: 1%;
-	width: 23%;
-}
-
-.start {
-	background: red;
-}
-
-.end {
-	background: green;
+	/*width: 18%;*/
 }

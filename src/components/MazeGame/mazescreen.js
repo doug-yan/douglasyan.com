@@ -25,12 +25,10 @@ class MazeScreen extends Component {
 			prevStart: start_linear_position,
 			colorList: temp_list,
 			endLinearPosition: end_linear_position,
-			totalSize: this.props.height * this.props.width
+			totalSize: this.props.height * this.props.width,
+			heightSize: 0.85*(400/this.props.height),
+			widthSize: `${100/this.props.width - 2}%`
 		};
-	}
-
-	componentDidMount() {
-		console.log('This is the start coordinates: ' + this.state.prevStart)
 	}
 
 	componentDidUpdate() {
@@ -43,7 +41,7 @@ class MazeScreen extends Component {
 		if(this.state.prevStart < (this.props.width * this.props.height) - 1) {
 			let rightWallMax = (Math.floor(this.state.prevStart / this.props.height) + 1) * this.props.width - 1;
 			if(this.state.prevStart === rightWallMax) {
-				this.props.hit_wall();
+				// this.props.hit_wall();
 			}
 
 			else {
@@ -58,20 +56,50 @@ class MazeScreen extends Component {
 
 	moveLeft() {
 		if(this.state.prevStart > 0) {
-			let colors = [...this.state.colorList];
-			colors[this.state.prevStart] = 'grey';
-			colors[this.state.prevStart - 1] = 'green';
-			this.setState({prevStart: this.state.prevStart - 1});
-			this.setState({colorList: colors});
+			let leftWallMin = Math.floor(this.state.prevStart / this.props.height) * this.props.width;
+			if(this.state.prevStart === leftWallMin) {
+				// this.props.hit_wall();
+			}
+
+			else {
+				let colors = [...this.state.colorList];
+				colors[this.state.prevStart] = 'grey';
+				colors[this.state.prevStart - 1] = 'green';
+				this.setState({prevStart: this.state.prevStart - 1});
+				this.setState({colorList: colors});
+			}
 		}
 	}
 
 	moveUp() {
-		console.log('move up');
+		// let upperWallMin = Math.floor(this.state.prevStart / this.props.height) * this.props.width - 1;
+		let currentRow = Math.floor(this.state.prevStart / this.props.height)
+
+		if(currentRow > 0) {
+			let colors = [...this.state.colorList];
+			colors[this.state.prevStart] = 'grey';
+			colors[this.state.prevStart - this.props.width] = 'green';
+			this.setState({prevStart: this.state.prevStart - this.props.width});
+			this.setState({colorList: colors})
+		}
+		else {
+			// this.props.hit_wall();
+		}
 	}
 
 	moveDown() {
-		console.log('move down');
+		let currentRow = Math.floor(this.state.prevStart / this.props.height);
+
+		if(currentRow < this.props.height - 1) {
+			let colors = [...this.state.colorList];
+			colors[this.state.prevStart] = 'grey';
+			colors[this.state.prevStart + this.props.width] = 'green';
+			this.setState({prevStart: this.state.prevStart + this.props.width});
+			this.setState({colorList: colors})
+		}
+		else {
+			// this.props.hit_wall();
+		}
 	}
 
 	boardBuilder() {
@@ -79,7 +107,7 @@ class MazeScreen extends Component {
 			<div>
 				<section>
 					{this.state.colorList.map(color => {
-						return(<div style={{backgroundColor: color}}></div>);
+						return(<div style={{backgroundColor: color, height: this.state.heightSize, width: this.state.widthSize}}></div>);
 					})}
 				</section>
 				<button onClick={this.moveLeft} className='button'>Left</button>
