@@ -1,0 +1,35 @@
+html, body {
+	margin: 0;
+}
+
+.maze-screen {
+	border-width: 1px;
+	border-color: black;
+	border-style: solid;
+	height: 400px;
+	width: 400px;
+	margin: 50px;
+	overflow: hidden;
+}
+
+section {
+	margin: -1%;
+	border-color: black;
+	padding: 20px;
+}
+
+section div {
+	background: grey;
+	float: left;
+	height: 85px;
+	margin: 1%;
+	width: 23%;
+}
+
+.start {
+	background: red;
+}
+
+.end {
+	background: green;
+}

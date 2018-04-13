@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import Facebook from '../../lib/assets/facebook.png';
 import LinkedIn from '../../lib/assets/linkedin.png';
 import Github from '../../lib/assets/github.png';
-import Resume from '../../lib/assets/resume.png';
 import './external_links.css';
 
 class ExternalLinks extends Component {

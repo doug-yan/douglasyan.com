@@ -1,0 +1,23 @@
+.title {
+	font-size: 100px;
+	padding-top: 50px;
+	text-align: center;
+}
+
+.maze-body {
+	display: flex;
+	flex-direction: row;
+	justify-content: justify;
+	padding-top: 30px;
+}
+
+.body-right {
+	margin: 50px;
+}
+
+.command-list-and-editor {
+	margin-top: 30px;
+	display: flex;
+	flex-direction: row;
+	justify-content: justify;
+}
