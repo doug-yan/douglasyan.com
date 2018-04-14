@@ -9,6 +9,7 @@ class MazeScreen extends Component {
 		this.moveLeft = this.moveLeft.bind(this);
 		this.moveUp = this.moveUp.bind(this);
 		this.moveDown = this.moveDown.bind(this);
+		this.parseCommands = this.parseCommands.bind(this);
 
 		let temp_list = [];
 		for(var i = 0; i < props.width * props.height; i++) {
@@ -27,13 +28,36 @@ class MazeScreen extends Component {
 			endLinearPosition: end_linear_position,
 			totalSize: this.props.height * this.props.width,
 			heightSize: 0.85*(400/this.props.height),
-			widthSize: `${100/this.props.width - 2}%`
+			widthSize: `${100/this.props.width - 2}%`,
+			orientation: 'top'
 		};
 	}
 
 	componentDidUpdate() {
 		if (this.state.prevStart === this.state.endLinearPosition) {
-				this.props.trigger_win();
+			setTimeout(()=>{this.props.trigger_win()}, 500);	
+		}
+		if (this.props.command_list !== '') {
+			this.parseCommands();
+		}
+	}
+
+	parseCommands() {
+		let command = this.props.get_next_command();
+
+		while(command !== undefined) {
+			switch(command) {
+				case 'moveRight':
+					this.moveRight();
+				break;
+
+				case 'moveDown':
+					this.moveDown();
+				break;
+				default:
+				break;
+			}
+			command = this.props.get_next_command();
 		}
 	}
 
@@ -106,14 +130,15 @@ class MazeScreen extends Component {
 		return (
 			<div>
 				<section>
-					{this.state.colorList.map(color => {
-						return(<div style={{backgroundColor: color, height: this.state.heightSize, width: this.state.widthSize}}></div>);
+					{this.state.colorList.map((color, index) => {
+						return(
+							<div
+								key={index}
+								style={{backgroundColor: color, height: this.state.heightSize, width: this.state.widthSize}}
+								className='square'
+							/>);
 					})}
 				</section>
-				<button onClick={this.moveLeft} className='button'>Left</button>
-				<button onClick={this.moveRight} className='button'>Right</button>
-				<button onClick={this.moveUp} className='button'>Up</button>
-				<button onClick={this.moveDown} className='button'>Down</button>
 			</div>
 		);
 	}

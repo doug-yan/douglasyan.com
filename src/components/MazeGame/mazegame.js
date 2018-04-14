@@ -11,18 +11,20 @@ class MazeGame extends Component {
         this.handleEditorSubmit = this.handleEditorSubmit.bind(this);
         this.handleWinCondition = this.handleWinCondition.bind(this);
         this.handleReset = this.handleReset.bind(this);
+        this.getNextCommand = this.getNextCommand.bind(this);
         this.state = {
             startPos: {x: 2, y: 2},
             endPos: {x: 4, y: 3},
             boardWidth: 4,
-            boardHeight: 5,
-            editorVal: '',
+            boardHeight: 6,
+            editorVal: [],
             solved: false
         }
     }
 
     handleEditorSubmit(val) {
-        console.log(val)
+        let editorVal = val.split('\n');
+        this.setState({editorVal});
     }
 
     handleWinCondition() {
@@ -31,6 +33,14 @@ class MazeGame extends Component {
 
     handleReset() {
         this.setState({solved: false});
+    }
+
+    getNextCommand() {
+        let nextCommand = this.state.editorVal[0];
+        let newEditorVal = this.state.editorVal;
+        newEditorVal.shift()
+        this.setState({editorVal: newEditorVal})
+        return nextCommand;
     }
 
 	render() {
@@ -54,6 +64,8 @@ class MazeGame extends Component {
                                 height={this.state.boardHeight}
                                 trigger_win={this.handleWinCondition}
                                 hit_wall={this.handleWallCollision}
+                                command_list={this.state.editorVal}
+                                get_next_command={this.getNextCommand}
                             />
                             <div className='body-right'>
                                 <Instructions />

@@ -3,25 +3,23 @@ html, body {
 }
 
 .maze-screen {
-	border-width: 1px;
+	/*border-width: 1px;
 	border-color: black;
-	border-style: solid;
+	border-style: solid;*/
 	height: 400px;
 	width: 400px;
-	margin: 50px;
+	margin: 30px;
 	overflow: hidden;
 }
 
 section {
 	margin: -1%;
 	border-color: black;
-	padding: 20px;
+	padding: 10px;
 }
 
-section div {
+.square {
 	background: grey;
 	float: left;
-	/*height: 85px;*/
 	margin: 1%;
-	/*width: 18%;*/
 }
