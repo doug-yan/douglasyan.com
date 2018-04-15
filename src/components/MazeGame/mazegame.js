@@ -14,7 +14,7 @@ class MazeGame extends Component {
         this.handleEditorSubmit = this.handleEditorSubmit.bind(this);
         this.handleWinCondition = this.handleWinCondition.bind(this);
         this.handleReset = this.handleReset.bind(this);
-        this.callMovement = this.callMovement.bind(this);
+        this.executeInstruction = this.executeInstruction.bind(this);
         this.handleResetBoard = this.handleResetBoard.bind(this);
         
         let boardWidth = Math.floor(Math.random() * 8) + 3;
@@ -46,15 +46,15 @@ class MazeGame extends Component {
 
     handleEditorSubmit(val) {
         let editorVal = val.split('\n');
-        this.callMovement(editorVal);
+        this.executeInstruction(editorVal);
     }
 
-    callMovement(editorVal) {
+    executeInstruction(editorVal) {
         let command = editorVal.shift();
         if(command !== undefined) {
             setTimeout(() => {
                 this.MazeScreen.current.executeInstruction(command);
-                this.callMovement(editorVal);
+                this.executeInstruction(editorVal);
             }, 500);
         }
     }
