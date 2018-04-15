@@ -27,11 +27,16 @@ class Editor extends Component {
 
 	render() {
 		return (
-			<form onSubmit={this.handleSubmit}>
-				<textarea className='text-editor' value={this.state.textField} onChange={this.handleChange}/>
-				<button onClick={this.handleSubmit} className='button'>Click</button>
-				<button onClick={this.handleClear} className='button'>Clear</button>
-			</form>
+			<div>
+				<div onSubmit={this.handleSubmit}>
+					<textarea className='text-editor' value={this.state.textField} onChange={this.handleChange}/>
+				</div>
+				<div className='buttons'>
+					<button onClick={this.handleSubmit} className='button'>Click</button>
+					<button onClick={this.handleClear} className='button'>Clear</button>
+					<button onClick={this.props.reset} className='button'>Reset</button>
+				</div>
+			</div>
 		);
 	}
 }

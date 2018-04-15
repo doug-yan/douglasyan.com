@@ -1,4 +1,10 @@
 .text-editor {
-	width: 500px;
+	width: 550px;
 	height: 250px;
+}
+
+.buttons {
+	display: flex;
+	flex-direction: row;
+	justify-content: justify;
 }
