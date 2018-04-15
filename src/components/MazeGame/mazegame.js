@@ -9,20 +9,39 @@ class MazeGame extends Component {
     constructor(props) {
         super(props);
         this.MazeScreen = React.createRef();
+        this.getStartPos = this.getStartPos.bind(this);
+        this.getEndPos = this.getEndPos.bind(this);
         this.handleEditorSubmit = this.handleEditorSubmit.bind(this);
         this.handleWinCondition = this.handleWinCondition.bind(this);
         this.handleReset = this.handleReset.bind(this);
         this.callMovement = this.callMovement.bind(this);
         this.handleResetBoard = this.handleResetBoard.bind(this);
         
+        let boardWidth = Math.floor(Math.random() * 8) + 3;
+        let boardHeight = Math.floor(Math.random() * 8) + 3;
+        let startPos = this.getStartPos(boardWidth, boardHeight);
+        let endPos = this.getEndPos(boardWidth, boardHeight, startPos);
+
         this.state = {
-            startPos: {x: 2, y: 2},
-            endPos: {x: 4, y: 3},
-            boardWidth: 4,
-            boardHeight: 6,
+            boardWidth: boardWidth,
+            boardHeight: boardHeight,
+            startPos: startPos,
+            endPos: endPos,
             editorVal: [],
             solved: false
         }
+    }
+
+    getStartPos(boardWidth, boardHeight) {
+        return {x: Math.floor(Math.random() * boardWidth) + 1, y: Math.floor(Math.random() * boardHeight) + 1}
+    }
+
+    getEndPos(boardWidth, boardHeight, startPos) {
+        let endPos = {x: Math.floor(Math.random() * boardWidth) + 1, y: Math.floor(Math.random() * boardHeight) + 1};
+        while(endPos.x === startPos.x && endPos.y === startPos.y) {
+            endPos = {x: Math.floor(Math.random() * boardWidth) + 1, y: Math.floor(Math.random() * boardHeight) + 1};
+        }
+        return endPos
     }
 
     handleEditorSubmit(val) {
@@ -34,7 +53,7 @@ class MazeGame extends Component {
         let command = editorVal.shift();
         if(command !== undefined) {
             setTimeout(() => {
-                this.MazeScreen.current.parseCommand(command);
+                this.MazeScreen.current.executeInstruction(command);
                 this.callMovement(editorVal);
             }, 500);
         }
@@ -45,6 +64,9 @@ class MazeGame extends Component {
     }
 
     handleReset() {
+        let startPos = this.getStartPos(this.state.boardWidth, this.state.boardHeight);
+        let endPos = this.getEndPos(this.state.boardWidth, this.state.boardHeight, startPos);
+        this.setState({startPos, endPos});
         this.setState({solved: false});
     }
 

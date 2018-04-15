@@ -5,21 +5,23 @@ class MazeScreen extends Component {
     constructor(props) {
         super(props);
         this.boardBuilder = this.boardBuilder.bind(this);
-        this.parseCommand = this.parseCommand.bind(this);
+        this.executeInstruction = this.executeInstruction.bind(this);
+        this.executeMovement = this.executeMovement.bind(this);
         this.moveRight = this.moveRight.bind(this);
         this.moveLeft = this.moveLeft.bind(this);
         this.moveUp = this.moveUp.bind(this);
         this.moveDown = this.moveDown.bind(this);
+        this.changeOrientation = this.changeOrientation.bind(this);
 
         let temp_list = [];
         for(var i = 0; i < props.width * props.height; i++) {
             temp_list.push('grey');
         }
 
-        let end_linear_position = ((props.end_position.y - 1 ) * props.width + props.end_position.x) - 1
-        temp_list[end_linear_position] = 'red'
+        let end_linear_position = ((this.props.start_position.y - 1) * this.props.width + this.props.start_position.x) - 1;
+        temp_list[end_linear_position] = 'red';
 
-        let start_linear_position = ((props.start_position.y - 1) * props.width + props.start_position.x) - 1
+        let start_linear_position = ((this.props.end_position.y - 1 ) * this.props.width + this.props.end_position.x) - 1;
         temp_list[start_linear_position] = 'green'
 
         this.state = {
@@ -31,7 +33,8 @@ class MazeScreen extends Component {
             totalSize: this.props.height * this.props.width,
             heightSize: 0.85*(400/this.props.height),
             widthSize: `${100/this.props.width - 2}%`,
-            orientation: 'top'
+            orientation: 'u',
+            orientationMap:['l', 'u', 'r', 'd']
         };
     }
 
@@ -39,27 +42,54 @@ class MazeScreen extends Component {
         if (this.state.prevStart === this.state.endLinearPosition) {
             setTimeout(()=>{this.props.trigger_win()}, 500);    
         }
-        if (this.props.next_command !== '') {
-            this.parseCommand();
-        }
     }
 
     resetMaze() {
-        this.setState({prevStart: this.state.originalStart, colorList: this.state.originalColorList});
+        this.setState({prevStart: this.state.originalStart, colorList: this.state.originalColorList, orientation: 'u'});
     }
 
-    parseCommand(command) {
-        switch(command) {
-            case 'moveRight':
+    executeInstruction(instruction) {
+        if(instruction === 'move') {
+            this.executeMovement();
+        }
+        else {
+            this.changeOrientation(instruction);
+        }
+    }
+
+    changeOrientation(command) {
+        let newDirection;
+        let orient = this.state.orientation
+        switch(orient) {
+            case 'l':
+                newDirection = command === 'turnLeft' ? 'd' : 'u'
+                break;
+            case 'u':
+                newDirection = command === 'turnLeft' ? 'l' : 'r'
+                break;
+            case 'r':
+                newDirection = command === 'turnLeft' ? 'u' : 'd'
+                break;
+            case 'd':
+                newDirection = command === 'turnLeft' ? 'r' : 'l'
+                break;
+            default: break;
+        }
+        this.setState({orientation: newDirection});
+    }
+
+    executeMovement() {
+        switch(this.state.orientation) {
+            case 'r':
                 this.moveRight();
                 break;
-            case 'moveLeft':
+            case 'l':
                 this.moveLeft();
                 break;                
-            case 'moveDown':
+            case 'd':
                 this.moveDown();
                 break;
-            case 'moveUp':
+            case 'u':
                 this.moveUp();
                 break;
             default:
@@ -103,8 +133,7 @@ class MazeScreen extends Component {
 
     moveUp() {
         // let upperWallMin = Math.floor(this.state.prevStart / this.props.height) * this.props.width - 1;
-        let currentRow = Math.floor(this.state.prevStart / this.props.height)
-
+        let currentRow = Math.floor(this.state.prevStart / this.props.width)
         if(currentRow > 0) {
             let colors = [...this.state.colorList];
             colors[this.state.prevStart] = 'grey';
