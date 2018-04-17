@@ -13,6 +13,10 @@ class MazeScreen extends Component {
         this.moveDown = this.moveDown.bind(this);
         this.changeOrientation = this.changeOrientation.bind(this);
         this.dropCrumb = this.dropCrumb.bind(this);
+        this.detectItem = this.detectItem.bind(this);
+        this.detectWall = this.detectWall.bind(this);
+        this.detectExit = this.detectExit.bind(this);
+        this.detectCrumb = this.detectCrumb.bind(this);
 
         let temp_list = [];
         for(var i = 0; i < props.width * props.height; i++) {
@@ -60,7 +64,13 @@ class MazeScreen extends Component {
                 break;
             case 'turnLeft':
             case 'turnRight':
-                this.changeOrientation();
+                this.changeOrientation(instruction);
+                break;
+            case 'wallAhead':
+            case 'exitAhead':
+            case 'crumbAhead':
+                if(this.detectItem(instruction)) {console.log('hit wall');}
+                else {console.log('no wall');}
                 break;
             default: break;
         }
@@ -68,6 +78,72 @@ class MazeScreen extends Component {
 
     dropCrumb() {
         this.setState({crumbPos: this.state.prevStart});
+    }
+
+    detectItem(instruction) {
+        switch(instruction) {
+            case 'wallAhead':
+                return this.detectWall();
+            case 'exitAhead':
+                return this.detectExit();
+            case 'crumbAhead':
+                return this.detectCrumb();
+            default: break;
+        }
+    }
+
+    detectWall() {
+        switch(this.state.orientation) {
+            case 'l':
+                let leftWallMin = Math.floor(this.state.prevStart / this.props.width) * this.props.width;
+                return (this.state.prevStart === leftWallMin) ? true : false;
+            case 'u':
+                let currentRowUpper = Math.floor(this.state.prevStart / this.props.width);
+                return (currentRowUpper <= 0) ? true : false;
+            case 'r':
+                let rightWallMax = (Math.floor(this.state.prevStart / this.props.width) + 1) * this.props.width - 1;
+                return (this.state.prevStart === rightWallMax) ? true : false;
+            case 'd':
+                let currentRowLower = Math.floor(this.state.prevStart / this.props.width);
+                return (currentRowLower === this.props.height - 1) ? true : false;
+            default: break;
+        }
+    }
+
+    detectExit() {
+        switch(this.state.orientation) {
+            case 'l':
+
+                break;
+            case 'u':
+
+                break;
+            case 'r':
+
+                break;
+            case 'd':
+
+                break;
+            default: break;
+        }
+    }
+
+    detectCrumb() {
+        switch(this.state.orientation) {
+            case 'l':
+
+                break;
+            case 'u':
+
+                break;
+            case 'r':
+
+                break;
+            case 'd':
+
+                break;
+            default: break;
+        }
     }
 
     changeOrientation(command) {
@@ -112,7 +188,7 @@ class MazeScreen extends Component {
 
     moveRight() {
         if(this.state.prevStart < (this.props.width * this.props.height) - 1) {
-            let rightWallMax = (Math.floor(this.state.prevStart / this.props.height) + 1) * this.props.width - 1;
+            let rightWallMax = (Math.floor(this.state.prevStart / this.props.width) + 1) * this.props.width - 1;
             if(this.state.prevStart === rightWallMax) {
                 // this.props.hit_wall();
             }
@@ -130,7 +206,7 @@ class MazeScreen extends Component {
 
     moveLeft() {
         if(this.state.prevStart > 0) {
-            let leftWallMin = Math.floor(this.state.prevStart / this.props.height) * this.props.width;
+            let leftWallMin = Math.floor(this.state.prevStart / this.props.width) * this.props.width;
             if(this.state.prevStart === leftWallMin) {
                 // this.props.hit_wall();
             }
@@ -163,8 +239,7 @@ class MazeScreen extends Component {
     }
 
     moveDown() {
-        let currentRow = Math.floor(this.state.prevStart / this.props.height);
-
+        let currentRow = Math.floor(this.state.prevStart / this.props.width);
         if(currentRow < this.props.height - 1) {
             let colors = [...this.state.colorList];
             colors[this.state.prevStart] = 'grey';
