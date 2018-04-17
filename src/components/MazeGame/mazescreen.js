@@ -119,29 +119,13 @@ class MazeScreen extends Component {
     detectExit() {
         switch(this.state.orientation) {
             case 'l':
-                let leftWallMin = Math.floor(this.state.prevStart / this.props.width) * this.props.width;
-                if(this.state.prevStart === leftWallMin) { return false; }
-                else {
-                    return (this.state.prevStart - 1 === this.state.endLinearPosition ? true : false);
-                }
+                return (this.state.prevStart - 1 === this.state.endLinearPosition ? true : false);
             case 'u':
-                let currentRowUpper = Math.floor(this.state.prevStart / this.props.width);
-                if(currentRowUpper <= 0) { return false; }
-                else {
-                    return (this.state.prevStart - this.props.width === this.state.endLinearPosition ? true : false);
-                }
+                return (this.state.prevStart - this.props.width === this.state.endLinearPosition ? true : false);
             case 'r':
-                let rightWallMax = (Math.floor(this.state.prevStart / this.props.width) + 1) * this.props.width - 1;
-                if(this.state.prevStart === rightWallMax) { return false; }
-                else {
-                    return (this.state.prevStart + 1 === this.state.endLinearPosition ? true : false);
-                }
+                return (this.state.prevStart + 1 === this.state.endLinearPosition ? true : false);
             case 'd':
-                let currentRowLower = Math.floor(this.state.prevStart / this.props.width);
-                if(currentRowLower === this.props.height -1) {return false;}
-                else {
-                    return (this.state.prevStart + this.props.width === this.state.endLinearPosition ? true : false);
-                }
+                return (this.state.prevStart + this.props.width === this.state.endLinearPosition ? true : false);
             default: break;
         }
     }
