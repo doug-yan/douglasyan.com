@@ -45,7 +45,7 @@ class MazeScreen extends Component {
 
     componentDidUpdate() {
         if (this.state.prevStart === this.state.endLinearPosition) {
-            setTimeout(()=>{this.props.trigger_win()}, 500);    
+            setTimeout(()=>{this.props.trigger_win()}, 250);    
         }
     }
 

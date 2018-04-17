@@ -20,6 +20,7 @@ class MazeGame extends Component {
         this.buildIfBody = this.buildIfBody.bind(this);
         this.positiveCheckBuild = this.positiveCheckBuild.bind(this);
         this.negativeCheckBuild = this.negativeCheckBuild.bind(this);
+        this.parseIfStatement = this.parseIfStatement.bind(this);
         
         let boardWidth = Math.floor(Math.random() * 8) + 3;
         let boardHeight = Math.floor(Math.random() * 8) + 3;
@@ -60,11 +61,15 @@ class MazeGame extends Component {
                 if(command.indexOf('if') > -1) {
                     instructionList.unshift(command);
                     this.buildIfBody(instructionList);
-                    clearInterval();
+                }
+                else if(command.indexOf('else') > -1) {
+                    this.positiveCheckBuild(instructionList);
                 }
                 else {
-                    this.MazeScreen.current.executeInstruction(command);
-                    this.executeInstructions(instructionList);
+                    if(this.MazeScreen.current) {
+                        this.MazeScreen.current.executeInstruction(command);
+                        this.executeInstructions(instructionList);
+                    }
                 }
             }, 250);
         }
@@ -72,32 +77,87 @@ class MazeGame extends Component {
 
     buildIfBody(editorVal) {
         let checkStatement = editorVal.shift();
-        if(checkStatement.indexOf('wallAhead') > -1 ) {
-            if(this.MazeScreen.current.detectWall()) { this.positiveCheckBuild(editorVal); }
+        if(checkStatement.indexOf('or') > -1 || checkStatement.indexOf('and')  > -1 || checkStatement.indexOf('not') > -1) {
+            if(this.parseIfStatement(checkStatement)) { this.positiveCheckBuild(editorVal); }
             else { this.negativeCheckBuild(editorVal); }
         }
-        if(checkStatement.indexOf('exitAhead') > -1 ) {
-            if(this.MazeScreen.current.detectExit()) { this.positiveCheckBuild(editorVal); }
-            else { this.negativeCheckBuild(editorVal); }
+
+        else {
+            if(checkStatement.indexOf('wallAhead') > -1 ) {
+                if(this.MazeScreen.current.detectWall()) { this.positiveCheckBuild(editorVal); }
+                else { this.negativeCheckBuild(editorVal); }
+            }
+            if(checkStatement.indexOf('exitAhead') > -1 ) {
+                if(this.MazeScreen.current.detectExit()) { this.positiveCheckBuild(editorVal); }
+                else { this.negativeCheckBuild(editorVal); }
+            }
+            if(checkStatement.indexOf('crumbAhead') > -1 ) {
+                if(this.MazeScreen.current.detectCrumb()) { this.positiveCheckBuild(editorVal); }
+                else { this.negativeCheckBuild(editorVal); }
+            }
         }
-        if(checkStatement.indexOf('crumbAhead') > -1 ) {
-            if(this.MazeScreen.current.detectCrumb()) { this.positiveCheckBuild(editorVal); }
-            else { this.negativeCheckBuild(editorVal); }
+    }
+
+    parseIfStatement(statement) {
+        let wall = false, exit = false, crumb = false;
+        let wallFound = false, exitFound = false, crumbFound = false;
+        let checks = {}
+        if(statement.indexOf('wallAhead') > -1) { wall = this.MazeScreen.current.detectWall(); wallFound = true; }
+        if(statement.indexOf('exitAhead') > -1) { exit = this.MazeScreen.current.detectExit(); exitFound = true; }
+        if(statement.indexOf('crumbAhead') > -1) { crumb = this.MazeScreen.current.detectCrumb(); crumbFound = true;}
+
+        if(statement.indexOf('not') > -1) {
+            if(statement.indexOf('wallAhead') > -1) { return !wall; }
+            if(statement.indexOf('exitAhead') > -1) { return !exit; }
+            if(statement.indexOf('crumbAhead') > -1) { return !crumb; }
+        }
+
+        if(statement.indexOf('or') > -1) {
+            if(wallFound) {
+                if(exitFound) { return (wall || exit); }
+                if(crumbFound) { return (wall || crumb); }
+                else { return wall; }
+            }
+            if(exitFound) {
+                if(wallFound) { return (exit || wall); }
+                if(crumbFound) { return (exit || crumb); }
+                else { return exit; }
+            }
+            if(crumbFound) {
+                if(wallFound) { return (crumb || wall); }
+                if(exitFound) { return (crumb || exit); }
+                else { return crumb; }
+            }
+        }
+
+        if(statement.indexOf('and') > -1) {
+            if(wallFound) {
+                if(exitFound) { return (wall && exit); }
+                if(crumbFound) { return (wall && crumb); }
+                else { return wall; }
+            }
+            if(exitFound) {
+                if(wallFound) { return (exit && wall); }
+                if(crumbFound) { return (exit && crumb); }
+                else { return exit; }
+            }
+            if(crumbFound) {
+                if(wallFound) { return (crumb && wall); }
+                if(exitFound) { return (crumb && exit); }
+                else { return crumb; }
+            }
         }
     }
 
     positiveCheckBuild(editorVal) {
         let instructionList = [];
-        console.log('old editorVal: ' + editorVal);
         let command = editorVal.shift();
 
         while(command.indexOf('}') < 0) {
             instructionList.push(command);
             command = editorVal.shift();    
         }
-        console.log('new editorVal: ' + editorVal);
-        console.log('instructin list: ' + instructionList);
-        console.log('upgraded editorVal: ' + editorVal);
+
         let newInstructions = instructionList.concat(editorVal);
         this.executeInstructions(newInstructions);
     }
