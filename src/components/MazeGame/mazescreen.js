@@ -40,7 +40,7 @@ class MazeScreen extends Component {
             widthSize: `${100/this.props.width - 2}%`,
             orientation: 'u',
             orientationMap:['l', 'u', 'r', 'd'],
-            crumbPos: -1
+            crumbPos: []
         };
     }
 
@@ -51,7 +51,7 @@ class MazeScreen extends Component {
     }
 
     resetMaze() {
-        this.setState({prevStart: this.state.originalStart, colorList: this.state.originalColorList, orientation: 'u'});
+        this.setState({prevStart: this.state.originalStart, colorList: this.state.originalColorList, orientation: 'u', crumbPos: []});
     }
 
     executeInstruction(instruction) {
@@ -83,7 +83,9 @@ class MazeScreen extends Component {
     }
 
     dropCrumb() {
-        this.setState({crumbPos: this.state.prevStart});
+        let crumbPos = this.state.crumbPos;
+        crumbPos.push(this.state.prevStart);
+        this.setState({crumbPos});
     }
 
     detectItem(instruction) {
@@ -133,17 +135,13 @@ class MazeScreen extends Component {
     detectCrumb() {
         switch(this.state.orientation) {
             case 'l':
-
-                break;
+                return (this.state.crumbPos.indexOf(this.state.prevStart - 1) > -1 ? true : false);
             case 'u':
-
-                break;
+                return (this.state.crumbPos.indexOf(this.state.prevStart - this.props.width) > -1 ? true : false);
             case 'r':
-
-                break;
+                return (this.state.crumbPos.indexOf(this.state.prevStart + 1) > -1 ? true : false);
             case 'd':
-
-                break;
+                return (this.state.crumbPos.indexOf(this.state.prevStart + this.props.width) > -1 ? true : false);
             default: break;
         }
     }
@@ -199,7 +197,9 @@ class MazeScreen extends Component {
                 let colors = [...this.state.colorList];
                 colors[this.state.prevStart] = 'grey';
                 colors[this.state.prevStart + 1] = 'green';
-                colors[this.state.crumbPos] = 'blue';
+                for(var i = 0; i < this.state.crumbPos.length; i++) {
+                    colors[this.state.crumbPos[i]] = 'blue';
+                }
                 this.setState({prevStart: this.state.prevStart + 1});
                 this.setState({colorList: colors});
             }
@@ -217,7 +217,9 @@ class MazeScreen extends Component {
                 let colors = [...this.state.colorList];
                 colors[this.state.prevStart] = 'grey';
                 colors[this.state.prevStart - 1] = 'green';
-                colors[this.state.crumbPos] = 'blue';
+                for(var i = 0; i < this.state.crumbPos.length; i++) {
+                    colors[this.state.crumbPos[i]] = 'blue';
+                }
                 this.setState({prevStart: this.state.prevStart - 1});
                 this.setState({colorList: colors});
             }
@@ -231,7 +233,9 @@ class MazeScreen extends Component {
             let colors = [...this.state.colorList];
             colors[this.state.prevStart] = 'grey';
             colors[this.state.prevStart - this.props.width] = 'green';
-            colors[this.state.crumbPos] = 'blue';
+            for(var i = 0; i < this.state.crumbPos.length; i++) {
+                colors[this.state.crumbPos[i]] = 'blue';
+            }
             this.setState({prevStart: this.state.prevStart - this.props.width});
             this.setState({colorList: colors})
         }
@@ -246,7 +250,9 @@ class MazeScreen extends Component {
             let colors = [...this.state.colorList];
             colors[this.state.prevStart] = 'grey';
             colors[this.state.prevStart + this.props.width] = 'green';
-            colors[this.state.crumbPos] = 'blue';
+            for(var i = 0; i < this.state.crumbPos.length; i++) {
+                colors[this.state.crumbPos[i]] = 'blue';
+            }
             this.setState({prevStart: this.state.prevStart + this.props.width});
             this.setState({colorList: colors})
         }
