@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import $ from 'jquery';
 import MazeScreen from './mazescreen';
 import Instructions from './instructions';
 import CommandList from './commandlist';
@@ -14,8 +15,11 @@ class MazeGame extends Component {
         this.handleEditorSubmit = this.handleEditorSubmit.bind(this);
         this.handleWinCondition = this.handleWinCondition.bind(this);
         this.handleReset = this.handleReset.bind(this);
-        this.executeInstruction = this.executeInstruction.bind(this);
+        this.executeInstructions = this.executeInstructions.bind(this);
         this.handleResetBoard = this.handleResetBoard.bind(this);
+        this.buildIfBody = this.buildIfBody.bind(this);
+        this.positiveCheckBuild = this.positiveCheckBuild.bind(this);
+        this.negativeCheckBuild = this.negativeCheckBuild.bind(this);
         
         let boardWidth = Math.floor(Math.random() * 8) + 3;
         let boardHeight = Math.floor(Math.random() * 8) + 3;
@@ -46,17 +50,64 @@ class MazeGame extends Component {
 
     handleEditorSubmit(val) {
         let editorVal = val.split('\n');
-        this.executeInstruction(editorVal);
+        this.executeInstructions(editorVal);
     }
 
-    executeInstruction(editorVal) {
-        let command = editorVal.shift();
+    executeInstructions(instructionList) { 
+        let command = instructionList.shift();
         if(command !== undefined) {
             setTimeout(() => {
-                this.MazeScreen.current.executeInstruction(command);
-                this.executeInstruction(editorVal);
-            }, 500);
+                if(command.indexOf('if') > -1) {
+                    instructionList.unshift(command);
+                    this.buildIfBody(instructionList);
+                    clearInterval();
+                }
+                else {
+                    this.MazeScreen.current.executeInstruction(command);
+                    this.executeInstructions(instructionList);
+                }
+            }, 250);
         }
+    }
+
+    buildIfBody(editorVal) {
+        let checkStatement = editorVal.shift();
+        if(checkStatement.indexOf('wallAhead') > -1 ) {
+            if(this.MazeScreen.current.detectWall()) { this.positiveCheckBuild(editorVal); }
+            else { this.negativeCheckBuild(editorVal); }
+        }
+        if(checkStatement.indexOf('exitAhead') > -1 ) {
+            if(this.MazeScreen.current.detectExit()) { this.positiveCheckBuild(editorVal); }
+            else { this.negativeCheckBuild(editorVal); }
+        }
+        if(checkStatement.indexOf('crumbAhead') > -1 ) {
+            if(this.MazeScreen.current.detectCrumb()) { this.positiveCheckBuild(editorVal); }
+            else { this.negativeCheckBuild(editorVal); }
+        }
+    }
+
+    positiveCheckBuild(editorVal) {
+        let instructionList = [];
+        console.log('old editorVal: ' + editorVal);
+        let command = editorVal.shift();
+
+        while(command.indexOf('}') < 0) {
+            instructionList.push(command);
+            command = editorVal.shift();    
+        }
+        console.log('new editorVal: ' + editorVal);
+        console.log('instructin list: ' + instructionList);
+        console.log('upgraded editorVal: ' + editorVal);
+        let newInstructions = instructionList.concat(editorVal);
+        this.executeInstructions(newInstructions);
+    }
+
+    negativeCheckBuild(editorVal) {
+        let dummy = editorVal.shift();
+        while(dummy.indexOf('}') < 0) {
+            dummy = editorVal.shift();
+        }
+        this.executeInstructions(editorVal);
     }
 
     handleWinCondition() {

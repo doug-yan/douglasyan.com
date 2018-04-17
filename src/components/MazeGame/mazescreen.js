@@ -13,7 +13,6 @@ class MazeScreen extends Component {
         this.moveDown = this.moveDown.bind(this);
         this.changeOrientation = this.changeOrientation.bind(this);
         this.dropCrumb = this.dropCrumb.bind(this);
-        this.detectItem = this.detectItem.bind(this);
         this.detectWall = this.detectWall.bind(this);
         this.detectExit = this.detectExit.bind(this);
         this.detectCrumb = this.detectCrumb.bind(this);
@@ -86,18 +85,6 @@ class MazeScreen extends Component {
         let crumbPos = this.state.crumbPos;
         crumbPos.push(this.state.prevStart);
         this.setState({crumbPos});
-    }
-
-    detectItem(instruction) {
-        switch(instruction) {
-            case 'wallAhead':
-                return this.detectWall();
-            case 'exitAhead':
-                return this.detectExit();
-            case 'crumbAhead':
-                return this.detectCrumb();
-            default: break;
-        }
     }
 
     detectWall() {
