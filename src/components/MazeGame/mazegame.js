@@ -21,6 +21,7 @@ class MazeGame extends Component {
         this.positiveCheckBuild = this.positiveCheckBuild.bind(this);
         this.negativeCheckBuild = this.negativeCheckBuild.bind(this);
         this.parseIfStatement = this.parseIfStatement.bind(this);
+        this.buildRepeatBody = this.buildRepeatBody.bind(this);
         
         let boardWidth = Math.floor(Math.random() * 8) + 3;
         let boardHeight = Math.floor(Math.random() * 8) + 3;
@@ -61,9 +62,15 @@ class MazeGame extends Component {
                 if(command.indexOf('if') > -1) {
                     instructionList.unshift(command);
                     this.buildIfBody(instructionList);
+                    clearInterval();
                 }
                 else if(command.indexOf('else') > -1) {
                     this.positiveCheckBuild(instructionList);
+                    clearInterval();
+                }
+                else if(command.indexOf('repeat') > -1 ) {
+                    instructionList.unshift(command);
+                    this.buildRepeatBody(instructionList);
                 }
                 else {
                     if(this.MazeScreen.current) {
@@ -73,6 +80,29 @@ class MazeGame extends Component {
                 }
             }, 250);
         }
+    }
+
+    buildRepeatBody(editorVal) {
+        let repeats = editorVal.shift();
+        repeats = repeats.replace ( /[^\d.]/g, '' );
+        let instructionList = [];
+        console.log('original editor val: ' + editorVal);
+        for(var i = 0; i < parseInt(repeats, 10); i++) {
+            let editorDummy = editorVal.slice();
+            let command = editorDummy.shift();
+            while(command.indexOf('}') < 0) {
+                instructionList.push(command);
+                command = editorDummy.shift();
+            }
+        }
+        let command = editorVal.shift();
+        while(command.indexOf('}') < 0) {
+            command = editorVal.shift();
+        }
+        console.log('new editor val: ' + editorVal);
+        let newInstructions = instructionList.concat(editorVal);
+        console.log('new instructions: ' + newInstructions);
+        this.executeInstructions(newInstructions);
     }
 
     buildIfBody(editorVal) {
@@ -101,7 +131,6 @@ class MazeGame extends Component {
     parseIfStatement(statement) {
         let wall = false, exit = false, crumb = false;
         let wallFound = false, exitFound = false, crumbFound = false;
-        let checks = {}
         if(statement.indexOf('wallAhead') > -1) { wall = this.MazeScreen.current.detectWall(); wallFound = true; }
         if(statement.indexOf('exitAhead') > -1) { exit = this.MazeScreen.current.detectExit(); exitFound = true; }
         if(statement.indexOf('crumbAhead') > -1) { crumb = this.MazeScreen.current.detectCrumb(); crumbFound = true;}
