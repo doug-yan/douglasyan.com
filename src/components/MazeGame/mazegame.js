@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-// import $ from 'jquery';
 import MazeScreen from './mazescreen';
+import DimensionsRequest from './dimensionsrequest';
 import Instructions from './instructions';
 import CommandList from './commandlist';
 import Editor from './editor';
@@ -22,19 +22,13 @@ class MazeGame extends Component {
         this.negativeCheckBuild = this.negativeCheckBuild.bind(this);
         this.parseIfStatement = this.parseIfStatement.bind(this);
         this.buildRepeatBody = this.buildRepeatBody.bind(this);
-        
-        let boardWidth = Math.floor(Math.random() * 8) + 3;
-        let boardHeight = Math.floor(Math.random() * 8) + 3;
-        let startPos = this.getStartPos(boardWidth, boardHeight);
-        let endPos = this.getEndPos(boardWidth, boardHeight, startPos);
+        this.handleDimensionRequest = this.handleDimensionRequest.bind(this);
 
         this.state = {
-            boardWidth: boardWidth,
-            boardHeight: boardHeight,
-            startPos: startPos,
-            endPos: endPos,
+            dimensionsReceieved: false,
             editorVal: [],
-            solved: false
+            solved: false,
+
         }
     }
 
@@ -48,6 +42,16 @@ class MazeGame extends Component {
             endPos = {x: Math.floor(Math.random() * boardWidth) + 1, y: Math.floor(Math.random() * boardHeight) + 1};
         }
         return endPos
+    }
+
+    handleDimensionRequest(width, height) {
+        let boardWidth = parseInt(width);
+        let boardHeight = parseInt(height);
+        if(boardWidth >= 3 && boardWidth <= 10 && boardHeight >= 3 && boardHeight <= 10) {
+            let startPos = this.getStartPos(width, height);
+            let endPos = this.getEndPos(width, height, startPos);
+            this.setState({ boardWidth, boardHeight, startPos, endPos, dimensionsReceieved: true });
+        } 
     }
 
     handleEditorSubmit(val) {
@@ -86,7 +90,7 @@ class MazeGame extends Component {
         let repeats = editorVal.shift();
         repeats = repeats.replace ( /[^\d.]/g, '' );
         let instructionList = [];
-        console.log('original editor val: ' + editorVal);
+        
         for(var i = 0; i < parseInt(repeats, 10); i++) {
             let editorDummy = editorVal.slice();
             let command = editorDummy.shift();
@@ -95,13 +99,14 @@ class MazeGame extends Component {
                 command = editorDummy.shift();
             }
         }
+
         let command = editorVal.shift();
         while(command.indexOf('}') < 0) {
             command = editorVal.shift();
         }
-        console.log('new editor val: ' + editorVal);
+        
         let newInstructions = instructionList.concat(editorVal);
-        console.log('new instructions: ' + newInstructions);
+        
         this.executeInstructions(newInstructions);
     }
 
@@ -200,7 +205,7 @@ class MazeGame extends Component {
     }
 
     handleWinCondition() {
-        this.setState({solved: true});
+        this.setState({solved: true, dimensionsReceieved: false});
     }
 
     handleReset() {
@@ -228,15 +233,24 @@ class MazeGame extends Component {
                     ):
                     (
                         <div  className='maze-body'>
-                            <MazeScreen
-                                ref={this.MazeScreen}
-                                start_position={this.state.startPos}
-                                end_position={this.state.endPos}
-                                width={this.state.boardWidth}
-                                height={this.state.boardHeight}
-                                trigger_win={this.handleWinCondition}
-                                hit_wall={this.handleWallCollision}
-                            />
+                            { this.state.dimensionsReceieved ?
+                            (
+                                <MazeScreen
+                                    ref={this.MazeScreen}
+                                    start_position={this.state.startPos}
+                                    end_position={this.state.endPos}
+                                    width={this.state.boardWidth}
+                                    height={this.state.boardHeight}
+                                    trigger_win={this.handleWinCondition}
+                                    hit_wall={this.handleWallCollision}
+                                />
+                            ):
+                            (
+                                <DimensionsRequest
+                                    submit_request={this.handleDimensionRequest}
+                                />
+                            )
+                            }
                             <div className='body-right'>
                                 <Instructions />
                                 <div className='command-list-and-editor'>
