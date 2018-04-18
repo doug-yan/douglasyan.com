@@ -1,3 +1,26 @@
 .command-list {
 	margin-right: 30px;
+	background-color: #BAB2B5;
+	color: #123C69;
+	padding: 15px;
+	font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;
+	border-width: 1px;
+	border-color: black;
+	border-style: solid;
+	width: 350px;
+}
+
+.command-list-title {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.section-title {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: 15px;
+}
+
+.section-content {
+	padding-left: 10px;
 }

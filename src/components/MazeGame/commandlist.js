@@ -8,15 +8,21 @@ class CommandList extends Component {
 				<div className='command-list-title'>Command List</div>
 				<div className='section-title'>Actions</div>
 				<div className='section-content'>
-					move, turnRight, turnLeft, dropCrumb
+					<li>move</li>
+					<li>turnRight</li>
+					<li>turnLeft</li>
+					<li>dropCrumb</li>
 				</div>
 				<div className='section-title'>Test</div>
 				<div className='section-content'>
-					wallAhead, exitAhead, crumbAhead
+					<li>wallAhead</li>
+					<li>exitAhead</li>
+					<li>crumbAhead</li>
 				</div>
 				<div className='section-title'>Operations</div>
 				<div className='section-content'>
-					if or/and/not else, repeatNTimes, repeatWhile, repeatUntil
+					<li>if or/and/not else</li>
+					<li>repeatNTimes</li>
 				</div>
 			</div>
 		);

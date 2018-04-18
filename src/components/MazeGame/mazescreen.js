@@ -16,6 +16,7 @@ class MazeScreen extends Component {
         this.detectWall = this.detectWall.bind(this);
         this.detectExit = this.detectExit.bind(this);
         this.detectCrumb = this.detectCrumb.bind(this);
+        this.getArrow = this.getArrow.bind(this);
 
         let temp_list = [];
         for(var i = 0; i < props.width * props.height; i++) {
@@ -257,12 +258,22 @@ class MazeScreen extends Component {
                             <div
                                 key={index}
                                 style={{backgroundColor: color, height: this.state.heightSize, width: this.state.widthSize}}
-                                className='square'
+                                className={color==='green' ? this.getArrow() : 'square'}
                             />);
                     })}
                 </section>
             </div>
         );
+    }
+
+    getArrow() {
+        switch(this.state.orientation) {
+            case 'l': return 'arrow-left';
+            case 'u': return 'arrow-up';
+            case 'r': return 'arrow-right';
+            case 'd': return 'arrow-down';
+            default: break;
+        }
     }
 
     render() {

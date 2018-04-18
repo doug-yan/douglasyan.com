@@ -45,8 +45,8 @@ class MazeGame extends Component {
     }
 
     handleDimensionRequest(width, height) {
-        let boardWidth = parseInt(width);
-        let boardHeight = parseInt(height);
+        let boardWidth = parseInt(width, 10);
+        let boardHeight = parseInt(height, 10);
         if(boardWidth >= 3 && boardWidth <= 10 && boardHeight >= 3 && boardHeight <= 10) {
             let startPos = this.getStartPos(width, height);
             let endPos = this.getEndPos(width, height, startPos);

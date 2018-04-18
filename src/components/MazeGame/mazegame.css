@@ -1,7 +1,10 @@
 .title {
-	font-size: 100px;
+	font-size: 75px;
+	font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;
+	font-variant: small-caps;
 	padding-top: 50px;
 	text-align: center;
+	color: #AC3B61;
 }
 
 .maze-body {
@@ -12,7 +15,7 @@
 }
 
 .body-right {
-	margin: 50px;
+	margin: 30px;
 }
 
 .win-container {

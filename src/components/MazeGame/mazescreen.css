@@ -1,25 +1,47 @@
 html, body {
-	margin: 0;
+    margin: 0;
+    background-color: #EEE2DC;
 }
 
 .maze-screen {
-	/*border-width: 1px;
-	border-color: black;
-	border-style: solid;*/
-	height: 400px;
-	width: 400px;
-	margin: 30px;
-	overflow: hidden;
+    height: 400px;
+    width: 400px;
+    margin: 30px;
+    overflow: hidden;
 }
 
 section {
-	margin: -1%;
-	border-color: black;
-	padding: 10px;
+    margin: -1%;
+    border-color: black;
+    padding: 10px;
 }
 
 .square {
-	background: grey;
-	float: left;
-	margin: 1%;
+    background: grey;
+    float: left;
+    margin: 1%;
+}
+
+.arrow-up {
+    background: grey;
+    float: left;
+    margin: 1%;
+}
+
+.arrow-down {
+    background: grey;
+    float: left;
+    margin: 1%;
+}
+
+.arrow-right {
+    background: grey;
+    float: left;
+    margin: 1%;
+}
+
+.arrow-left {
+    background: grey;
+    float: left;
+    margin: 1%;
 }
