@@ -7,6 +7,7 @@ class Editor extends Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.handleClear = this.handleClear.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleKeyDown = this.handleKeyDown.bind(this);
 		this.state = {
 			textField: ''
 		}
@@ -25,11 +26,25 @@ class Editor extends Component {
 		this.props.submit(this.state.textField);
 	}
 
+	handleKeyDown(e) {
+		if(e.keyCode===9 || e.which===9){
+            e.preventDefault();
+            let newTextField = this.state.textField + '\t';
+            this.setState({textField: newTextField});
+        }
+	}
+
 	render() {
 		return (
 			<div>
 				<div onSubmit={this.handleSubmit}>
-					<textarea className='text-editor' value={this.state.textField} onChange={this.handleChange}/>
+					<textarea
+						className='text-editor'
+						value={this.state.textField}
+						onChange={this.handleChange}
+						onKeyDown={this.handleKeyDown}
+						tabIndex="0"
+					/>
 				</div>
 				<div className='buttons'>
 					<button onClick={this.handleSubmit} className='button'>Submit</button>

@@ -233,6 +233,17 @@ class MazeGame extends Component {
                     ):
                     (
                         <div  className='maze-body'>
+                            <div className='body-right'>
+                                <Instructions />
+                                <div className='command-list-and-editor'>
+                                    <CommandList />
+                                    <Editor
+                                        text_value={this.state.editorVal}
+                                        submit={this.handleEditorSubmit}
+                                        reset={this.handleResetBoard}
+                                    />
+                                </div>
+                            </div>
                             { this.state.dimensionsReceieved ?
                             (
                                 <MazeScreen
@@ -251,17 +262,6 @@ class MazeGame extends Component {
                                 />
                             )
                             }
-                            <div className='body-right'>
-                                <Instructions />
-                                <div className='command-list-and-editor'>
-                                    <CommandList />
-                                    <Editor
-                                        text_value={this.state.editorVal}
-                                        submit={this.handleEditorSubmit}
-                                        reset={this.handleResetBoard}
-                                    />
-                                </div>
-                            </div>
                         </div>
                     )
                     }
