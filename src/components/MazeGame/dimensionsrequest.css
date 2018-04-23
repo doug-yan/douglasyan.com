@@ -1,0 +1,52 @@
+.dimensions-request {
+	border-width: 1px;
+	border-color: black;
+	border-style: solid;
+	height: 400px;
+	width: 400px;
+	margin: 30px;
+	overflow: hidden;
+	background-color: #f7f7f7;
+	align-content: center;
+	text-align: center;
+	overflow: visible;
+}
+
+.width-field, .height-field {
+	resize: none;
+	padding-top: 5px;
+	background-color: #f7f7f7;
+	color: #123C69;
+	font-size: 15px;
+	width: 18px;
+	height: 18px;
+	display: inline-block;
+}
+
+.input-field {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	padding-top: 15px;
+	margin: 0 auto;
+}
+
+.input-description {
+	display: inline-block;
+	padding-right: 5px;
+	font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;
+	font-variant: small-caps;
+}
+
+.dimensions-title {
+	padding-top: 20px;
+	font-variant: small-caps;
+	padding-bottom: 20px;
+	font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;
+	font-size: 20px;
+}
+
+.dimension-button {
+	padding-top: 25px;
+	align-content: center;
+}
