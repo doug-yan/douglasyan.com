@@ -6,7 +6,7 @@
 	color: #123C69;
 }
 
-.buttons {
+.editor-buttons {
 	display: flex;
 	flex-direction: row;
 	justify-content: justify;

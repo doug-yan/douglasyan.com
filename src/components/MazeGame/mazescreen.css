@@ -3,6 +3,12 @@ html, body {
     background-color: #EEE2DC;
 }
 
+section {
+    margin: -1%;
+    border-color: black;
+    padding: 10px;
+}
+
 .maze-screen {
     height: 400px;
     width: 400px;
@@ -10,10 +16,8 @@ html, body {
     overflow: visible;
 }
 
-section {
-    margin: -1%;
-    border-color: black;
-    padding: 10px;
+.maze-button {
+    float: right;
 }
 
 .square {

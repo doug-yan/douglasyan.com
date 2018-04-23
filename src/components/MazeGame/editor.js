@@ -46,7 +46,7 @@ class Editor extends Component {
 						tabIndex="0"
 					/>
 				</div>
-				<div className='buttons'>
+				<div className='editor-buttons'>
 					<button onClick={this.handleSubmit} className='button'>Submit</button>
 					<button onClick={this.handleClear} className='button'>Clear</button>
 					<button onClick={this.props.reset} className='button'>Reset</button>

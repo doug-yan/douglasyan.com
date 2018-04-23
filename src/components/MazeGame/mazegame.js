@@ -17,6 +17,7 @@ class MazeGame extends Component {
         this.handleReset = this.handleReset.bind(this);
         this.executeInstructions = this.executeInstructions.bind(this);
         this.handleResetBoard = this.handleResetBoard.bind(this);
+        this.handleMazeRedo = this.handleMazeRedo.bind(this);
         this.buildIfBody = this.buildIfBody.bind(this);
         this.positiveCheckBuild = this.positiveCheckBuild.bind(this);
         this.negativeCheckBuild = this.negativeCheckBuild.bind(this);
@@ -221,6 +222,10 @@ class MazeGame extends Component {
         this.setState({solved: false});
     }
 
+    handleMazeRedo() {
+        this.setState({dimensionsReceieved: false});
+    }
+
     handleResetBoard() {
         this.MazeScreen.current.resetMaze();
     }
@@ -260,6 +265,7 @@ class MazeGame extends Component {
                                     height={this.state.boardHeight}
                                     trigger_win={this.handleWinCondition}
                                     hit_wall={this.handleWallCollision}
+                                    reset={this.handleMazeRedo}
                                 />
                             ):
                             (

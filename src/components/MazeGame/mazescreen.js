@@ -314,8 +314,11 @@ class MazeScreen extends Component {
 
     render() {
         return (
-            <div className='maze-screen'>
-                {this.boardBuilder()}
+            <div>
+                <div className='maze-screen'>
+                    {this.boardBuilder()}
+                </div>
+                <button onClick={this.props.reset} className='reset-maze-button'>Reset Maze</button>
             </div>
         );
     }
