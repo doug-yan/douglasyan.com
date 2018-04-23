@@ -94,15 +94,18 @@ class MazeGame extends Component {
         for(var i = 0; i < parseInt(repeats, 10); i++) {
             let editorDummy = editorVal.slice();
             let command = editorDummy.shift();
-            while(command.indexOf('}') < 0) {
+            while(command.indexOf(' ') < 0) {
+                command = command.replace(/\s/g, '');
                 instructionList.push(command);
                 command = editorDummy.shift();
+                if(command === undefined) { break; }
             }
         }
 
         let command = editorVal.shift();
-        while(command.indexOf('}') < 0) {
+        while(command.indexOf(' ') < 0) {
             command = editorVal.shift();
+            if(command === undefined) { break; }
         }
         
         let newInstructions = instructionList.concat(editorVal);
@@ -188,12 +191,10 @@ class MazeGame extends Component {
         let command = editorVal.shift();
 
         while(command.indexOf(' ') < 0) {
-            console.log('detected tab');
             command = command.replace(/\s/g, '');
-            console.log(command);
             instructionList.push(command);
             command = editorVal.shift();
-            if(command === undefined) { break ; }   
+            if(command === undefined) { break; }   
         }
 
         let newInstructions = instructionList.concat(editorVal);
@@ -202,8 +203,9 @@ class MazeGame extends Component {
 
     negativeCheckBuild(editorVal) {
         let dummy = editorVal.shift();
-        while(dummy.indexOf('\t') < 0) {
+        while(dummy.indexOf(' ') < 0) {
             dummy = editorVal.shift();
+            if(dummy === undefined) { break; }
         }
         this.executeInstructions(editorVal);
     }

@@ -22,26 +22,35 @@ section {
     margin: 1%;
 }
 
-.arrow-up {
-    background: grey;
+.exit {
     float: left;
     margin: 1%;
 }
 
-.arrow-down {
-    background: grey;
+.crumb {
     float: left;
     margin: 1%;
 }
 
-.arrow-right {
-    background: grey;
+.robot-up {
     float: left;
     margin: 1%;
 }
 
-.arrow-left {
-    background: grey;
+.robot-right {
+    transform: rotate(90deg);
+    float: left;
+    margin: 1%;
+}
+
+.robot-down {
+    transform: rotate(180deg);
+    float: left;
+    margin: 1%;
+}
+
+.robot-left {
+    transform: rotate(270deg);
     float: left;
     margin: 1%;
 }

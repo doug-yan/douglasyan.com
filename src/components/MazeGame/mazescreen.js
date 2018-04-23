@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import robot from './assets/robot.png';
+import exit from './assets/exit.png';
+import crumb from './assets/crumb.png';
 import './mazescreen.css';
 
 class MazeScreen extends Component {
@@ -16,7 +19,7 @@ class MazeScreen extends Component {
         this.detectWall = this.detectWall.bind(this);
         this.detectExit = this.detectExit.bind(this);
         this.detectCrumb = this.detectCrumb.bind(this);
-        this.getArrow = this.getArrow.bind(this);
+        this.getRobot = this.getRobot.bind(this);
 
         let temp_list = [];
         for(var i = 0; i < props.width * props.height; i++) {
@@ -250,28 +253,61 @@ class MazeScreen extends Component {
     }
 
     boardBuilder() {
+        console.log(this.state.colorList);
         return (
             <div>
                 <section>
                     {this.state.colorList.map((color, index) => {
-                        return(
-                            <div
-                                key={index}
-                                style={{backgroundColor: color, height: this.state.heightSize, width: this.state.widthSize}}
-                                className={color==='green' ? this.getArrow() : 'square'}
-                            />);
+                        if(color === 'green') {
+                            return (
+                                <img
+                                    key={index}
+                                    src={robot}
+                                    className={this.getRobot()}
+                                    alt='robot-alt'
+                                    style={{height: this.state.heightSize, width: this.state.widthSize}}
+                                />); 
+                        }
+                        if(color === 'red' ) {
+                            return (
+                                <img
+                                    key={index}
+                                    src={exit}
+                                    className='exit'
+                                    alt='exit-alt'
+                                    style={{height: this.state.heightSize, width: this.state.widthSize}}
+                                />);
+                        }
+                        if(color === 'blue' ) {
+                            return(
+                                <img
+                                    key={index}
+                                    src={crumb}
+                                    className='crumb'
+                                    alt='crumb-alt'
+                                    style={{height: this.state.heightSize, width: this.state.widthSize}}
+                                />);
+                        }
+                        else {
+                            return(
+                                <div
+                                    key={index}
+                                    style={{backgroundColor: color, height: this.state.heightSize, width: this.state.widthSize}}
+                                    className='square'
+                                />);
+                        }
                     })}
                 </section>
             </div>
         );
     }
 
-    getArrow() {
+    getRobot() {
         switch(this.state.orientation) {
-            case 'l': return 'arrow-left';
-            case 'u': return 'arrow-up';
-            case 'r': return 'arrow-right';
-            case 'd': return 'arrow-down';
+            case 'l': return 'robot-left';
+            case 'u': return 'robot-up';
+            case 'r': return 'robot-right';
+            case 'd': return 'robot-down';
             default: break;
         }
     }
